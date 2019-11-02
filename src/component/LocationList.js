@@ -5,10 +5,8 @@ const LocationList = () => {
   return (
     <div>
       <WeatherLocation city="San Juan de los Morros,ve" />
-
-      <WeatherLocation city="Bogota,col" />
-
-      <WeatherLocation city="Buenos Aires,ar" />
+      <WeatherLocation city="London,uk" />
+      <WeatherLocation city="Washington,us" />
     </div>
   );
 };
