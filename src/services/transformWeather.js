@@ -1,3 +1,4 @@
+import convert from "convert-units";
 import {
   CLOUD,
   SUN,
@@ -18,13 +19,18 @@ const getWeatherState = weather => {
   else return CLOUD;
 };
 
+const getTemp = kelvin => {
+  return Number(convert(kelvin).from("K").to("C").toFixed(2));
+}
+
 const transformWeather = weather_data => {
   const { humidity, temp } = weather_data.main;
   const { speed } = weather_data.wind;
   const weatherState = getWeatherState(weather_data.weather[0]);
+  const temperature = getTemp(temp);
   const data = {
     humi: humidity,
-    temp,
+    temp: temperature,
     wState: weatherState,
     wind: `${speed} M/S`
   };

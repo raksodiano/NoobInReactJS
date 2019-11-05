@@ -3,16 +3,14 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import transformWeather from "./../../services/transformWeather";
 import getUrlWeatherByCity from "./../../services/getUrlWeatherByCity";
-import axios from "axios";
 import Location from "./Location";
 import WeatherData from "./WeatherData";
 import "./styles.css";
 
 class WeatherLocation extends Component {
-  constructor(props) {
-    super(props);
-    const { city } = props;
 
+  constructor({ city }) {
+    super();
     this.state = {
       city,
       data: null
@@ -23,17 +21,14 @@ class WeatherLocation extends Component {
     this.handleUpdateClick();
   }
 
-  componentDidUpdate() {
-  }
-
   handleUpdateClick = () => {
     const api_weather = getUrlWeatherByCity(this.state.city);
-    axios.get(api_weather)
-      .then(resolve => {
-        return resolve;
-      })
+    fetch(api_weather)
+      .then(resolve => (
+        resolve.json()
+      ))
       .then(data => {
-        const newData = transformWeather(data.data);
+        const newData = transformWeather(data);
         this.setState({
           data: newData
         });
@@ -46,7 +41,7 @@ class WeatherLocation extends Component {
     return (
       <div className="weatherLocationCont" onClick={onWeatherLocationClick} >
         <Location city={city} />
-        { data ? <WeatherData datos={data} /> : <CircularProgress /> }
+        {data ? <WeatherData datos={data} /> : <CircularProgress />}
       </div>
     );
   }

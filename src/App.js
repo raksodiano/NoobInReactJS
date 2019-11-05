@@ -20,18 +20,18 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state = { 
-      city: cities[0]
+    this.state = {
+      city: null
     };
   }
 
   handleSelectedLocation = city => {
     this.setState({ city });
-    console.log(`handleSelectedLocation ${city}`);
   };
 
   render() {
     const { city } = this.state;
+
     return (
       <Grid fluid>
         <Row>
@@ -56,9 +56,12 @@ class App extends Component {
           <Col xs={12} md={6}>
             <Paper elevation={4}>
               <div className="details">
-                <ForecastExtended
-                  city={ city }
-                />
+                {
+                  city ?
+                  <ForecastExtended
+                    city={city}
+                  /> : <h2> No se ha seleccionado ciudad </h2>
+                }
               </div>
             </Paper>
           </Col>
