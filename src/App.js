@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createStore } from 'redux';
+import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import LocationList from './component/LocationList';
 import ForecastExtended from './component/ForecastExtended';
+import { setCity } from './action';
 import './App.css';
 
 const cities = [
@@ -16,11 +17,6 @@ const cities = [
   "London,uk",
   "Washington,us",
 ];
-
-const store = createStore(
-  () => {},
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
 
 class App extends Component {
 
@@ -34,12 +30,8 @@ class App extends Component {
   handleSelectedLocation = city => {
     this.setState({ city });
     console.log(`handleSelectedLocation ${city}`);
-    const action = {
-      type: "setCity",
-      value: city
-    };
 
-    store.dispatch(action);
+    this.props.setCity(city);
   };
 
   render() {
@@ -71,9 +63,9 @@ class App extends Component {
               <div className="details">
                 {
                   city ?
-                  <ForecastExtended
-                    city={city}
-                  /> : <h2> No se ha seleccionado ciudad </h2>
+                    <ForecastExtended
+                      city={city}
+                    /> : <h2> No se ha seleccionado ciudad </h2>
                 }
               </div>
             </Paper>
@@ -84,4 +76,10 @@ class App extends Component {
   };
 }
 
-export default App;
+const mapDispatchPropsActions = dispatch => ({
+  setCity: value => dispatch(setCity(value))
+});
+
+const AppConnected = connect(null, mapDispatchPropsActions)(App);
+
+export default AppConnected;
