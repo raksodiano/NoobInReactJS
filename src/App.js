@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import LocationList from './component/LocationList';
-import ForecastExtended from './component/ForecastExtended';
-import { setCity } from './action';
+import LocationListContainer from './container/LocationListContainer';
+import ForecastExtendedContainer from './container/ForecastExtendedContainer';
 import './App.css';
 
 const cities = [
@@ -20,23 +18,7 @@ const cities = [
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      city: null
-    };
-  }
-
-  handleSelectedLocation = city => {
-    this.setState({ city });
-    console.log(`handleSelectedLocation ${city}`);
-
-    this.props.setCity(city);
-  };
-
   render() {
-    const { city } = this.state;
-
     return (
       <Grid fluid>
         <Row>
@@ -52,21 +34,15 @@ class App extends Component {
         <Row>
           <Col xs={12} md={6}>
             <div className="App">
-              <LocationList
+              <LocationListContainer
                 cities={cities}
-                onSelectedLocation={this.handleSelectedLocation}
               />
             </div>
           </Col>
           <Col xs={12} md={6}>
             <Paper elevation={4}>
               <div className="details">
-                {
-                  city ?
-                    <ForecastExtended
-                      city={city}
-                    /> : <h2> No se ha seleccionado ciudad </h2>
-                }
+                <ForecastExtendedContainer />
               </div>
             </Paper>
           </Col>
@@ -76,10 +52,4 @@ class App extends Component {
   };
 }
 
-const mapDispatchPropsActions = dispatch => ({
-  setCity: value => dispatch(setCity(value))
-});
-
-const AppConnected = connect(null, mapDispatchPropsActions)(App);
-
-export default AppConnected;
+export default App;
