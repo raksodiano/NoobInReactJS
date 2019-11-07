@@ -12,7 +12,10 @@ export default combineReducers({
   city
 });
 
-export const getCity = createSelector(state => state.city, city => city);
+export const getCity = createSelector(
+  state => state.city, 
+  city => city
+);
 
 export const getForecastDataFromCities = createSelector(
   state => state.cities,

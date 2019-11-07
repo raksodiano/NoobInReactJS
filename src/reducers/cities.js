@@ -9,12 +9,13 @@ import {
 export const cities = (state = {}, action) => {
   switch (action.type) {
     case SET_FORECAST_DATA: {
-      const { city, forecastData } = action.payload
+      const { city, forecastData } = action.payload;
       return {
         ...state,
-        [city]: {
+        [city]: { 
+          ...state[city],
           forecastData,
-          weather: null
+          forecastDataDate: new Date()
         }
       };
     }
@@ -23,7 +24,10 @@ export const cities = (state = {}, action) => {
       const city = action.payload;
       return { 
         ...state, 
-        [city]: { weather: null}
+        [city]: { 
+          ...state[city],
+          weather: null 
+        }
       }
     }
 
@@ -31,7 +35,10 @@ export const cities = (state = {}, action) => {
       const { city, weather } = action.payload;
       return { 
         ...state, 
-        [city]: { weather }
+        [city]: { 
+          ...state[city],
+          weather 
+        }
       }
     }
 
@@ -50,7 +57,7 @@ const fromObjToArray = cities => (
     ([key, value]) => ({
       key,
       name: key,
-      data: value.weather
+      weather: value.weather
     })
   )
 );
